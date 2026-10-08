@@ -10,7 +10,7 @@ export const LAMPA = { x: 0.7, z: -11.0 };                            // lampa p
 const PODEST = { x: 0.9, h: 0.12 };   // głęboki: przykrywa wypieczony cień starej kurtyny i stopę lampy
 const SRODEK = (KURTYNA.z0 + KURTYNA.z1) / 2, SCIANA = { x: 0.03, z0: -12.95, z1: -8.45, y0: PODEST.h, y1: 3.5 };
 const WYDARZENIA = [   // z zakładki Wydarzenia (index.html), od najnowszego
-  { id: 'wydarzenie-2025', data: '28.10', rok: '2025', tytul: 'Warsztaty malarskie dla dorosłych', miejsce: 'Stacja Artystyczna Rynek', tlo: '#efe7dc' },
+  { id: 'wydarzenie-2026', data: '13.10', rok: '2026', tytul: 'Warsztaty malarskie dla dorosłych', miejsce: 'Stacja Artystyczna Rynek · także 27.10', tlo: '#efe7dc' },
   { id: 'wydarzenie-2024', data: '05.10', rok: '2024', tytul: 'Wystawa prac uczestników warsztatów', miejsce: 'ArtNoc 2024 · Stacja Artystyczna Rynek', tlo: '#e4d4c2' },
   { id: 'wydarzenie-2023', data: '07.10', rok: '2023', tytul: 'Wystawa „Uwolnij swoje emocje”', miejsce: 'ArtNoc 2023 · Stacja Artystyczna Rynek', tlo: '#d6bfa7' },
 ];
