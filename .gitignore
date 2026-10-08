@@ -1,0 +1,11 @@
+# druga linia obrony — do repozytorium trafia tylko to, co składa narzedzia/buduj.mjs
+.DS_Store
+*.blend
+*.blend1
+*.log
+.env
+.env.*
+*.pem
+*.key
+node_modules/
+*.tmp

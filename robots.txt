@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# trenowanie modeli AI na pracach i tekstach — bez zgody autorki (zastrzeżenie z art. 26³ PrAut)
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: meta-externalagent
+User-agent: Applebot-Extended
+User-agent: Amazonbot
+Disallow: /
+
+Sitemap: https://artstacja.pl/sitemap.xml
