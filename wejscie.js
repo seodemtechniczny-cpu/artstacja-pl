@@ -8,7 +8,7 @@ const ROOT = new URL('./', document.baseURI).pathname;   // '/' na domenie (<bas
 const naStarcie = [ROOT, ROOT + 'index.html'].includes(location.pathname) && !location.hash;   // tylko wejście na stronę główną
 if (!naStarcie || matchMedia('(prefers-reduced-motion: reduce)').matches || !document.createElement('canvas').getContext('webgl2')) { el.remove(); napis.remove(); }
 else {
-  document.body.classList.add('przed-wejsciem');
+  document.body.classList.add('przed-wejsciem', 'menu-ukryte');
   const W = innerWidth, H = innerHeight, asp = W / H, px = v => Math.round(v * 10) / 10;
   const { poz: POZ, cel: CEL } = startPoza(asp), tv = Math.tan(pionowyKat(asp) * Math.PI / 360);
   const sub = (a, b) => a.map((v, i) => v - b[i]), dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
@@ -123,7 +123,7 @@ else {
       el.remove();
       napis.classList.add('widac');
       await klikniety;
-      napis.classList.remove('widac');
+      napis.classList.remove('widac'); document.body.classList.remove('menu-ukryte');   // menu zjeżdża od razu, nie po dojściu do sali
       setTimeout(() => napis.remove(), 850);   // po schowaniu precz (napis jest przypięty do ekranu — szedł z kamerą do sali)
       await spacer.wejdz();
       document.body.classList.remove('przed-wejsciem');
