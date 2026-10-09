@@ -8,7 +8,7 @@ import { startPoza, SRODEK, SCIANA, OTWOR } from './przedsionek-dane.js';
 import { utworzKurtyne, KURTYNA, LAMPA } from './kurtyna.js';
 
 // obraz w scenie → plik i tytuł (kolejność obrazów ze spacer.py, wypisana przez narzedzia/spacer_ladowanie.py)
-const RZYMSKIE = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+const TYTULY = ['Błękitny wieczór', 'Wiatr w grzywie', 'Spacer w błękicie', 'Cisza', 'Zatoka o zmierzchu', 'Deszcz w Paryżu', 'Pod złotym słońcem', 'Dwie strony'];   // robocze (09.10), do podmiany na tytuły Magdy — też index.html i narzedzia/buduj.mjs
 const PLIK = { bar: 1, wneka_0: 2, wneka_1: 3, wneka_2: 4, sztaluga_0: 5, sztaluga_1: 6, oparty_1: 7, oparty_2: 8, kacik: 1, w1: 2, w2_pd: 3, w2_pn: 4 };
 
 // próbkowanie wypieku: z bliska (teksel atlasu większy niż piksel) dwusześcienny B-spline z 4 próbek zamiast liniowego —
@@ -137,7 +137,7 @@ export async function utworzSpacer({ kadr, postep, czyAktywny, podglad: ui, prze
     if (o.userData.obraz) {
       o.material = new T.MeshBasicMaterial({ map: o.material.map });   // wypiek obrazu (1024 px, ze światłem reflektora)
       const id = o.name.replace(/^obraz_/, ''), nr = PLIK[id] || 1;
-      o.userData.info = { id, nr, plik: `obrazy/p0${nr}-duzy.webp`, tytul: `Bez tytułu ${RZYMSKIE[nr - 1]}` };
+      o.userData.info = { id, nr, plik: `obrazy/p0${nr}-duzy.webp`, tytul: TYTULY[nr - 1] };
       obrazy.push(o);
       return;
     }
