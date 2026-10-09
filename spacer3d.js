@@ -230,7 +230,13 @@ export async function utworzSpacer({ kadr, postep, czyAktywny, podglad: ui, prze
   let nadObrazem = null, wskazNowe = false, wcisk = null;
   // podgląd: przeciąganie obraca kamerę wokół obrazu (widać bok płótna i grubość farby na krawędzi)
   let obrotCel = 0, obrot = 0, ciag = null;
+  let mysziag = null;   // przeciąganie myszą w spacerze = krok korytarzem (jak palcem): w górę albo w lewo idzie dalej
   kadr.addEventListener('pointermove', e => {
+    if (stan === 'spacer' && mysziag && e.buttons && e.pointerType !== 'touch') {
+      const dx = mysziag[0] - e.clientX, dy = mysziag[1] - e.clientY;
+      doCelu += (Math.abs(dx) > Math.abs(dy) ? dx : dy) * 1.6; mysziag = [e.clientX, e.clientY];
+      if (Math.hypot(e.clientX - wcisk[0], e.clientY - wcisk[1]) > 6) kadr.classList.add('ciagnie');
+    }
     if (stan === 'podglad' && ciag && e.buttons) { obrotCel = Math.max(-0.75, Math.min(0.75, ciag[1] + (e.clientX - ciag[0]) / innerWidth * 2.2)); }
     wsk.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); wskazNowe = true;
     if (e.pointerType === 'mouse') { mysz.x = wsk.x; mysz.y = wsk.y; }
@@ -241,7 +247,8 @@ export async function utworzSpacer({ kadr, postep, czyAktywny, podglad: ui, prze
     ray.setFromCamera(wsk, kamera);
     return ray.intersectObjects(obrazy, false).find(h => !h.object.userData.karta || h.object === otwarty || kurtyna.otwarta()) || null;
   };
-  kadr.addEventListener('pointerdown', e => { wcisk = e.target === cv ? [e.clientX, e.clientY] : null; ciag = wcisk && stan === 'podglad' ? [e.clientX, obrotCel] : null; });   // tylko klik w scenę, nie w napisy i przyciski
+  kadr.addEventListener('pointerdown', e => { wcisk = e.target === cv ? [e.clientX, e.clientY] : null; ciag = wcisk && stan === 'podglad' ? [e.clientX, obrotCel] : null; mysziag = wcisk && stan === 'spacer' ? [e.clientX, e.clientY] : null; });
+  addEventListener('pointerup', () => { mysziag = null; kadr.classList.remove('ciagnie'); });   // tylko klik w scenę, nie w napisy i przyciski
   kadr.addEventListener('pointerup', e => {
     if (!wcisk || Math.hypot(e.clientX - wcisk[0], e.clientY - wcisk[1]) > 6 || !czyAktywny()) return;
     wsk.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
@@ -352,6 +359,7 @@ export async function utworzSpacer({ kadr, postep, czyAktywny, podglad: ui, prze
     droga += (doCelu - droga) * (1 - Math.exp(-dt * DROGA));
     f += (droga / L * P - f) * (1 - Math.exp(-dt * DOCIAG));
     if (stan === 'spacer') {
+      ui.idzie?.(Math.min(1, Math.abs(droga) / 500));
       ustawSpacer(f);
       mysz.gx += (mysz.x - mysz.gx) * (1 - Math.exp(-dt * 3)); mysz.gy += (mysz.y - mysz.gy) * (1 - Math.exp(-dt * 3));
       kamera.rotateY(-mysz.gx * 0.035); kamera.rotateX(mysz.gy * 0.02);   // ~2° w bok, ~1° w pion za kursorem

@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-8whSi6Bt9JvYE1RR+8td/Q/AWYBPNUpgjrpgx1ZOXso=' 'sha256-/RRDugFen3KJQML0ndZY2ocyy59Xu4UL48xe3Ft35bs=' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' data: blob: https://script.google.com https://script.googleusercontent.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0bUywP5AP8gqfX8H6EU9RRrlPCMtOvuB3n/OMSDT8hE=' 'sha256-/RRDugFen3KJQML0ndZY2ocyy59Xu4UL48xe3Ft35bs=' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' data: blob: https://script.google.com https://script.googleusercontent.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com; upgrade-insecure-requests">
 <base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Obrazy akrylowe malowane ręcznie — na sprzedaż i na zamówienie</title>
@@ -79,9 +79,12 @@
   .amfilada { position: relative; height: 100svh; }
   .kadr { position: relative; height: 100svh; overflow: hidden; background: #2a241f; }
   .kadr canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .napis { position: absolute; left: var(--bok); bottom: 44px; margin: 0; max-width: 14ch; color: var(--tusz); font: 300 clamp(34px, 4.4vw, 68px)/1.02 var(--font); letter-spacing: -0.035em; text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45); }
+  .napis { position: absolute; left: var(--bok); bottom: 44px; margin: 0; max-width: 14ch; color: var(--tusz); font: 300 clamp(30px, 3.6vw, 54px)/1.02 var(--font); letter-spacing: -0.035em; text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45); transform-origin: 0 100%; }
   .napis small { display: block; margin-top: 16px; font: 500 15px/1.4 var(--font); letter-spacing: 0; color: var(--tusz); }
-  .napis span { display: block; margin-top: 14px; font: 600 11px/1 var(--font); letter-spacing: 0.24em; text-transform: uppercase; color: var(--drugi); }
+  .napis span { display: block; width: max-content; max-width: 84vw; margin-top: 14px; font: 600 11px/1.6 var(--font); letter-spacing: 0.24em; text-transform: uppercase; color: var(--tusz); }
+  .napis span b { font-weight: inherit; } .napis span b::before { content: '↕'; margin-right: 10px; color: var(--akcent); letter-spacing: 0; }
+  .kadr.ciagnie { cursor: grabbing; } .napis .palec { display: none; }
+  @media (hover: none) { .napis .mysz { display: none; } .napis .palec { display: inline; } }
   /* „Przejdź dalej”: sam napis i cienka pionowa kreska, która wydłuża się pod kursorem */
   .dalej { position: absolute; right: var(--bok); bottom: 40px; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 8px 4px;
     background: none; border: 0; color: #FFF8EE; font: 650 12.5px/1 var(--font); letter-spacing: 0.26em; text-transform: uppercase; cursor: pointer;
@@ -575,7 +578,7 @@
         <p class="podglad__pomoc">Kółko albo szczypanie — przybliżysz fakturę farby. Przeciągnij — zobaczysz bok płótna. Esc — powrót.</p>
         <div class="linki"><a class="kreska strzalka" href="/kontakt/#napisz" data-temat="obraz">Zapytaj o ten obraz</a><button class="wroc kreska" type="button">Wróć do spaceru</button></div>
       </div></div>
-      <p class="napis" data-h1="start">Obrazy, które mają fakturę <small>Magdalena Ociepa-Smolińska · malarstwo akrylowe · Gliwice</small> <span>przewijaj — idziesz przez galerię</span></p>
+      <p class="napis" data-h1="start">Obrazy, które mają fakturę <small>Magdalena Ociepa-Smolińska · malarstwo akrylowe · Gliwice</small> <span class="wskazowka"><b class="mysz">przewiń albo przeciągnij, żeby przejść dalej korytarzem</b><b class="palec">przeciągnij, żeby przejść dalej korytarzem</b></span></p>
       <button class="dalej" type="button">Przejdź dalej<i aria-hidden="true"></i></button>
     </div>
   </section>
@@ -1039,6 +1042,7 @@ pokaz(trasa()[0], false);
 document.querySelector('.dalej').addEventListener('click', () => idz(ROOT + 'obrazy/'));
 
 // ---------- interfejs podglądu, kursor, tabliczki
+const napisStart = document.querySelector('.kadr .napis'); let napisSkala = 0;
 const pod = document.getElementById('podglad'), kursor = document.querySelector('.kursor'), tabl = [...document.querySelectorAll('.tabliczka')];
 const ui = {
   otworz(info) {   // obraz albo karta wydarzenia: etykieta, podpowiedź i link z info (domyślnie teksty obrazu)
@@ -1051,6 +1055,9 @@ const ui = {
   zamknij() { pod.classList.remove('otwarty'); kadr.classList.remove('w-podgladzie'); },
   kursor(x, y) { kursor.style.transform = `translate3d(${x}px, ${y}px, 0)`; },
   kursorNad(info) { kursor.classList.toggle('nad', !!info); },
+  idzie(p) {   // napis na starcie maleje, gdy idziesz korytarzem (p: 0 → 1); scale osobno od transform wjazdu/podglądu
+    if (Math.abs(p - napisSkala) < 0.004) return; napisSkala = p; napisStart.style.scale = (1 - 0.42 * p).toFixed(3);
+  },
   tabliczki(lista) {
     tabl.forEach((t, i) => {
       const l = lista[i];
