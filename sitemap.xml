@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url><loc>https://artstacja.pl/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://artstacja.pl/obrazy/</loc><lastmod>2026-10-08</lastmod>
+  <url><loc>https://artstacja.pl/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://artstacja.pl/obrazy/</loc><lastmod>2026-10-09</lastmod>
     <image:image><image:loc>https://artstacja.pl/obrazy/p01-duzy.webp</image:loc></image:image>
     <image:image><image:loc>https://artstacja.pl/obrazy/p02-duzy.webp</image:loc></image:image>
     <image:image><image:loc>https://artstacja.pl/obrazy/p03-duzy.webp</image:loc></image:image>
@@ -11,10 +11,10 @@
     <image:image><image:loc>https://artstacja.pl/obrazy/p07-duzy.webp</image:loc></image:image>
     <image:image><image:loc>https://artstacja.pl/obrazy/p08-duzy.webp</image:loc></image:image>
   </url>
-  <url><loc>https://artstacja.pl/zajecia/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://artstacja.pl/wydarzenia/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://artstacja.pl/o-mnie/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://artstacja.pl/kontakt/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://artstacja.pl/polityka-prywatnosci/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://artstacja.pl/regulamin/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://artstacja.pl/zajecia/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://artstacja.pl/wydarzenia/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://artstacja.pl/o-mnie/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://artstacja.pl/kontakt/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://artstacja.pl/polityka-prywatnosci/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://artstacja.pl/regulamin/</loc><lastmod>2026-10-09</lastmod></url>
 </urlset>

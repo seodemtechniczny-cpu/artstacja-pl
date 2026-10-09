@@ -46,8 +46,8 @@ function tytul() {   // typografia lewej części ściany, osobna przezroczysta 
   tekst('Wystawy i spotkania', 0.02, 0.66, `300 ${m(0.085)}px Manrope`, '#c9b9a6');
   g.fillStyle = 'rgba(239, 231, 220, 0.4)'; g.fillRect(m(0.02), m(0.82), m(1.4), 3);
   tekst('Najbliższy termin — wkrótce', 0.02, 1.0, `500 ${m(0.075)}px Manrope`, '#efe7dc');
-  tekst('Zadzwoń albo napisz, dam znać.', 0.02, 1.12, `300 ${m(0.058)}px Manrope`, '#c9b9a6');
-  tekst('605 318 518', 0.02, 1.36, `200 ${m(0.15)}px Manrope`, '#efe7dc');
+  tekst('Napisz przez formularz, dam znać.', 0.02, 1.12, `300 ${m(0.058)}px Manrope`, '#c9b9a6');
+  tekst('Napisz do mnie', 0.02, 1.36, `200 ${m(0.15)}px Manrope`, '#efe7dc');
   return [tekstura(c), w, h];
 }
 
