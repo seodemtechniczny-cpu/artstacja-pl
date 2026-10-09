@@ -82,7 +82,7 @@
   .napis { position: absolute; left: var(--bok); bottom: 44px; margin: 0; max-width: 14ch; color: var(--tusz); font: 300 clamp(30px, 3.6vw, 54px)/1.02 var(--font); letter-spacing: -0.035em; text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45); transform-origin: 0 100%; }
   .napis small { display: block; margin-top: 16px; font: 500 15px/1.4 var(--font); letter-spacing: 0; color: var(--tusz); }
   .napis span { display: block; width: max-content; max-width: 84vw; margin-top: 14px; font: 500 14px/1.5 var(--font); letter-spacing: 0.01em; color: var(--tusz); }
-  .napis span b { font-weight: inherit; } .napis span b::before { content: '↕'; margin-right: 10px; color: var(--akcent); letter-spacing: 0; }
+  .napis span b { font-weight: inherit; } .napis span b::before { content: ''; display: inline-block; width: 28px; height: 1.5px; margin-right: 12px; vertical-align: middle; background: linear-gradient(90deg, #FFF8EE 38%, rgba(255, 248, 238, 0.42) 38%); }   /* kreska jak przy „Przejdź dalej” */
   .kadr.ciagnie { cursor: grabbing; } .napis .palec { display: none; }
   @media (hover: none) { .napis .mysz { display: none; } .napis .palec { display: inline; } }
   /* „Przejdź dalej”: sam napis i cienka pionowa kreska, która wydłuża się pod kursorem */
