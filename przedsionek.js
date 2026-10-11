@@ -51,7 +51,16 @@ export async function utworzPrzedsionek(scena) {
     const sw = g.createLinearGradient(0, (H - OTWOR.h) * PX, 0, h);
     sw.addColorStop(0, 'rgba(255, 190, 130, 0)'); sw.addColorStop(1, 'rgba(255, 190, 130, 0.08)');
     g.fillStyle = sw; g.fillRect(d - 0.25 * PX, (H - OTWOR.h) * PX, e - d + 0.5 * PX, OTWOR.h * PX);
-    g.fillStyle = '#100a07'; g.fillRect(0, h - 0.07 * PX, w, 0.07 * PX);    // cokół
+    // cokół z orzecha i czarna listwa galeryjna z linkami do obrazów — jak w sali (spacer.py, 11.10)
+    g.fillStyle = '#24160d'; g.fillRect(0, h - 0.1 * PX, w, 0.1 * PX);
+    g.fillStyle = 'rgba(255, 200, 150, 0.10)'; g.fillRect(0, h - 0.1 * PX, w, 0.006 * PX);   // światło na górnej krawędzi cokołu
+    const yl = 0.52 * PX;
+    g.fillStyle = '#0b0807'; g.fillRect(0, yl, w, 0.03 * PX);
+    g.strokeStyle = 'rgba(12, 10, 9, 0.85)'; g.lineWidth = Math.max(1, 0.004 * PX);
+    for (const ob of OBRAZY) {
+      const x = zU(ob.z) * w, wp = ob.h * ob.prop * PX, yp = (H - ob.y) * PX - ob.h * PX / 2;
+      for (const sx of [-1, 1]) { g.beginPath(); g.moveTo(x + sx * (wp / 2 - 0.1 * PX), yl + 0.03 * PX); g.lineTo(x + sx * (wp / 2 - 0.1 * PX), yp); g.stroke(); }
+    }
     ziarno(g, w, h, 7);
   });
   const mSc = new T.MeshBasicMaterial({ map: sciana, side: T.DoubleSide });

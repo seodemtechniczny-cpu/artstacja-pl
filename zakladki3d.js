@@ -25,9 +25,17 @@ function cien(r) {   // miękki cień kontaktowy (gradient na płaszczyźnie)
   const m = new T.Mesh(new T.PlaneGeometry(r * 2, r * 2), new T.MeshBasicMaterial({ map: new T.CanvasTexture(c), transparent: true, depthWrite: false }));
   m.rotation.x = -Math.PI / 2; return m;
 }
-function swiatla(scena) {
+function swiatla(scena, model, zasieg, podloga) {
   scena.add(new T.HemisphereLight(0xffe2c4, 0x1b2238, 0.55));
-  const klucz = new T.DirectionalLight(0xffdcb4, 2.6); klucz.position.set(-2.5, 4, 3.5); scena.add(klucz);
+  // światło kluczowe rzuca prawdziwy cień (mapa cieni tylko w tej małej scenie): pędzel na palecie, nogi sztalugi na podłodze;
+  // gradient pod modelem zostaje jako cień kontaktowy
+  const klucz = new T.DirectionalLight(0xffdcb4, 2.6); klucz.position.set(-2.5, 4, 3.5).multiplyScalar(zasieg / 2); scena.add(klucz);
+  klucz.castShadow = true; klucz.shadow.mapSize.set(1024, 1024); klucz.shadow.radius = 4;
+  klucz.shadow.bias = -0.0004; klucz.shadow.normalBias = zasieg * 0.004;
+  Object.assign(klucz.shadow.camera, { left: -zasieg, right: zasieg, top: zasieg, bottom: -zasieg, near: 0.01, far: zasieg * 6 });
+  model.traverse(o => { if (o.isMesh) o.castShadow = o.receiveShadow = true; });
+  const lapie = new T.Mesh(new T.PlaneGeometry(zasieg * 4, zasieg * 4), new T.ShadowMaterial({ opacity: 0.32 }));
+  lapie.rotation.x = -Math.PI / 2; lapie.position.y = podloga; lapie.receiveShadow = true; scena.add(lapie);
   const kontra = new T.DirectionalLight(0x8fa6d8, 0.9); kontra.position.set(3, 2, -3); scena.add(kontra);
 }
 
@@ -61,6 +69,7 @@ export async function utworzRekwizyty({ aktywna }) {
   const ruchOgr = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
   renderer.outputColorSpace = T.SRGBColorSpace; renderer.toneMapping = T.AgXToneMapping; renderer.toneMappingExposure = 1.35;   // AgX: drewno bez przepalonej pomarańczy (ACES)
   renderer.domElement.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block';
   const env = otoczenie(renderer);
@@ -70,8 +79,9 @@ export async function utworzRekwizyty({ aktywna }) {
   const SCENY = {
     async sztaluga(el) {
       const [g, ...etapy] = await Promise.all([loader.loadAsync('rekwizyty/sztaluga.glb'), ...[1, 2, 3].map(i => wczytaj(`rekwizyty/etap-${i}.webp`))]);
-      const scena = new T.Scene(); scena.environment = env; swiatla(scena);
-      const model = g.scene, plotno = model.getObjectByName('plotno_front');
+      const scena = new T.Scene(); scena.environment = env;
+      const model = g.scene; swiatla(scena, model, 1.6, 0.001);
+      const plotno = model.getObjectByName('plotno_front');
       const mp = materialPlotna(etapy); plotno.material = mp;
       const cn = cien(0.85); cn.position.y = 0.002; model.add(cn); scena.add(model);
       const kam = new T.PerspectiveCamera(28, 1, 0.05, 50);
@@ -91,7 +101,7 @@ export async function utworzRekwizyty({ aktywna }) {
     },
     async paleta(el) {
       const g = await loader.loadAsync('rekwizyty/paleta.glb');
-      const scena = new T.Scene(); scena.environment = env; swiatla(scena);
+      const scena = new T.Scene(); scena.environment = env; swiatla(scena, g.scene, 0.45, -0.06);
       const obrot = new T.Group(); obrot.add(g.scene); scena.add(obrot);
       const pedzel = g.scene.getObjectByName('pedzel_paleta'), p0 = pedzel ? pedzel.position.clone() : null;
       const cn = cien(0.3); cn.position.y = -0.06; scena.add(cn);
@@ -116,6 +126,7 @@ export async function utworzRekwizyty({ aktywna }) {
     const s = await SCENY[el.dataset['3d']](el);
     s.kam.aspect = 1; s.ustaw(ruchOgr ? 1 : 0);
     await renderer.compileAsync(s.scena, s.kam);
+    renderer.setSize(1, 1, false); renderer.render(s.scena, s.kam);   // shadery głębi i mapa cieni teraz (w rozgrzewce), nie w pierwszej klatce po przejściu
     gotowe.set(el, s);
   }
   let biezacy = null, w = 0, h = 0, krok = -1;
