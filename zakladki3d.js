@@ -69,7 +69,7 @@ export async function utworzRekwizyty({ aktywna }) {
   const ruchOgr = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFShadowMap;   // PCFSoft usunięty w tej wersji three.js (sam przełączał na PCF z ostrzeżeniem)
   renderer.outputColorSpace = T.SRGBColorSpace; renderer.toneMapping = T.AgXToneMapping; renderer.toneMappingExposure = 1.35;   // AgX: drewno bez przepalonej pomarańczy (ACES)
   renderer.domElement.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block';
   const env = otoczenie(renderer);
